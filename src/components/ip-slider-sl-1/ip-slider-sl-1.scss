@@ -4,8 +4,21 @@
   --ip-acc-font: 'Avenir', sans-serif;
 }
 
+* {
+  padding: 0;
+  margin: 0;
+}
+
 $ps-breakpoint-mobile: 767px;
+$ps-breakpoint-mobile-landscape: 992px;
+$ps-breakpoint-small-tablet: 992px;
+$ps-breakpoint-tablet: 1024px;
+$ps-tablet: 'only screen and (max-width: #{$ps-breakpoint-tablet})';
+$ps-small-tablet: 'only screen and (max-width: #{$ps-breakpoint-small-tablet})';
 $ps-mobile-portrait: 'only screen and (max-width: #{$ps-breakpoint-mobile}) and (orientation: portrait)';
+$ps-mobile-landscape: 'only screen and (max-width: #{$ps-breakpoint-mobile-landscape}) and (orientation: landscape)';
+$ps-desktop-only: 'only screen and (min-width: #{$ps-breakpoint-tablet + 1})';
+$ps-ipad-pro-landscape: 'only screen and (min-width: 1024px) and (max-height: 1366px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 1.5)';
 
 .ip-slider-sl-1 {
   margin-top: 100px;
@@ -33,7 +46,9 @@ $ps-mobile-portrait: 'only screen and (max-width: #{$ps-breakpoint-mobile}) and 
       &__title {
         text-align: center;
         color: var(--ip-slider-secondary-color);
+        font-family: var(--ip-acc-font);
         font-size: 50px;
+        padding-bottom: 10%;
 
         @media #{$ps-mobile-portrait} {
           display: none;
@@ -43,11 +58,11 @@ $ps-mobile-portrait: 'only screen and (max-width: #{$ps-breakpoint-mobile}) and 
           font-size: 40px;
         }
 
-        @media only screen and (max-width: 1024px) {
+        @media #{$ps-tablet} {
           font-size: 30px;
         }
 
-        @media only screen and (max-width: 768px) {
+        @media #{$ps-small-tablet} {
           font-size: 25px;
         }
 
@@ -59,12 +74,12 @@ $ps-mobile-portrait: 'only screen and (max-width: #{$ps-breakpoint-mobile}) and 
 
     &__btns {
       display: flex;
+      align-items: center;
       button {
         display: flex;
         align-items: center;
         justify-content: center;
         background: none;
-        border: none;
         border: 2px solid var(--ip-slider-secondary-color);
         border-radius: 50%;
         padding: 32px;
@@ -75,15 +90,32 @@ $ps-mobile-portrait: 'only screen and (max-width: #{$ps-breakpoint-mobile}) and 
           padding: 20px;
         }
 
-        @media only screen and (max-width: 768px) {
+        @media #{$ps-small-tablet} {
           padding: 16px;
         }
 
-        &:hover {
-          background-color: var(--ip-slider-secondary-color);
+        @media #{$ps-mobile-portrait} {
+          padding: 14px;
+        }
 
-          .arrow {
-            border-color: white;
+        @media #{$ps-desktop-only} {
+          &:hover, &:focus {
+            background-color: var(--ip-slider-secondary-color);
+            outline-color: var(--ip-slider-secondary-color);
+
+            .arrow {
+              border-color: white;
+            }
+          }
+        }
+
+        @media #{$ps-ipad-pro-landscape} {
+          &:hover {
+            background-color: unset;
+
+            .arrow {
+              border-color: var(--ip-slider-secondary-color);;
+            }
           }
         }
 
@@ -104,7 +136,7 @@ $ps-mobile-portrait: 'only screen and (max-width: #{$ps-breakpoint-mobile}) and 
             padding: 10px;
           }
 
-          @media only screen and (max-width: 768px) {
+          @media #{$ps-small-tablet} {
             padding: 7px;
           }
 
@@ -132,7 +164,7 @@ $ps-mobile-portrait: 'only screen and (max-width: #{$ps-breakpoint-mobile}) and 
         &:first-child {
           margin-right: 25px;
 
-          @media only screen and (max-width: 768px) {
+          @media #{$ps-small-tablet} {
             margin-right: 15px;
           }
         }
@@ -140,12 +172,41 @@ $ps-mobile-portrait: 'only screen and (max-width: #{$ps-breakpoint-mobile}) and 
         &:last-child {
           margin-left: 25px;
 
-          @media only screen and (max-width: 768px) {
+          @media #{$ps-small-tablet} {
             margin-left: 15px;
           }
+
         }
       }
 
+    }
+
+    &__title-mobile {
+      font-family: var(--ip-acc-font);
+      color: var(--ip-slider-secondary-color);
+      padding-left: 30px;
+      padding-bottom: 12px;
+      font-size: 25px;
+      display: none;
+
+      span {
+        font-weight: bold;
+      }
+
+      @media #{$ps-mobile-portrait} {
+        display: block;
+      }
+    }
+
+    &__pagination {
+      font-family: var(--ip-acc-font);
+      color: var(--ip-slider-secondary-color);
+      font-size: 14px;
+      display: none;
+
+      @media #{$ps-mobile-portrait} {
+        display: block;
+      }
     }
 
     &__items {
@@ -186,15 +247,16 @@ $ps-mobile-portrait: 'only screen and (max-width: #{$ps-breakpoint-mobile}) and 
           justify-content: center;
           position: relative;
 
-          &:hover, &:focus {
-            .slider__li__overlay {
-              background-color: rgba(#000000, 0.8);
-            }
+          @media #{$ps-desktop-only} {
+            &:hover, &:focus {
+              .slider__li__overlay {
+                background-color: rgba(#000000, 0.6);
+              }
 
-            .slider__li__desc {
-              transform: translateY(0);
-              transform: scale(1,1);
-              opacity: 1;
+              .slider__li__desc {
+                transform: translateY(0);
+                opacity: 1;
+              }
             }
           }
         }
@@ -209,10 +271,34 @@ $ps-mobile-portrait: 'only screen and (max-width: #{$ps-breakpoint-mobile}) and 
           position: absolute;
           color: white;
           padding: 0 20%;
+          font-family: var(--ip-acc-font);
           font-size: 35px;
           opacity: 0;
           transform: translateY(25px);
           transition: opacity 0.3s ease-in, transform 0.3s ease-in;
+
+          @media #{$ps-tablet} {
+            opacity: 1;
+            transform: translateY(0px);
+            padding: 0 10%;
+            font-size: 30px;
+          }
+
+          @media #{$ps-small-tablet} {
+            font-size: 25px;
+          }
+
+          @media #{$ps-ipad-pro-landscape} {
+            opacity: 1;
+            transform: translateY(0px);
+          }
+
+          @media #{$ps-mobile-portrait} {
+            font-size: 28px;
+            padding: 0 12% 0 0;
+            left: 12%;
+            bottom: 12%;
+          }
         }
 
         &__overlay {
@@ -221,6 +307,14 @@ $ps-mobile-portrait: 'only screen and (max-width: #{$ps-breakpoint-mobile}) and 
           height: 100%;
           background-color: rgba(#000000, 0);
           transition: background-color 0.3s ease-in;
+
+          @media #{$ps-tablet} {
+            background-color: rgba(#000000, 0.6);
+          }
+
+          @media #{$ps-ipad-pro-landscape} {
+            background-color: rgba(#000000, 0.6);
+          }
         }
 
       }

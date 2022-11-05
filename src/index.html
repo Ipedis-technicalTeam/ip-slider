@@ -9,14 +9,41 @@
     <script nomodule src="/build/ip-slider.js"></script>
 
     <style>
-      body {
-        margin: 0;
+      * {
+        box-sizing: border-box;
       }
+
+      html, body, div, span, h1, h2, h3, h4, h5, h6, p, a, ol, ul, li, article, footer, header, menu, nav, section, summary, mark, audio, video {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        font-size: 100%;
+        font: inherit;
+        vertical-align: baseline;
+        box-sizing: border-box
+      }
+
+      ol, ul {
+        list-style: none;
+      }
+
+      blockquote, q {
+        quotes: none;
+      }
+
+      button {
+        background: none;
+        border: none;
+        cursor: pointer;
+      }
+
     </style>
   </head>
   <body>
 
-    <ip-slider-sl-1 slide-title='Au service<br/> de nos <br/><span>consommateurs</span>'
+    <ip-slider-sl-1
+      slide-title='Au service<br/> de nos <br/><span>consommateurs</span>'
+      slide-title-mobile='Au service de<br/><span>nos consommateurs</span>',
       slides='[
         {"imgPath": "assets/images/slide-1.png", "link": "#", "title": "Martell prend son envol au Nigeria"},
         {"imgPath": "assets/images/slide-2.png", "link": "#", "title": "Pour une croissance de nos marques de Whiskey aux États-Unis"},
