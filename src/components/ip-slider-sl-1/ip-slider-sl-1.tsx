@@ -122,8 +122,8 @@ export class IpSliderSl1 {
 
           <div class='slider__desc'>
 
-            <p class='slider__desc__title' innerHTML={this.slideTitle ? this.slideTitle : ''}>
-            </p>
+            <h3 class='slider__desc__title' innerHTML={this.slideTitle ? this.slideTitle : ''}>
+            </h3>
 
             <div class='slider__btns'>
 
@@ -145,10 +145,10 @@ export class IpSliderSl1 {
           <div class='slider__items'>
             <ul class='slider__items__ul'>
               {
-                this._slides?.map((slide) => (
+                this._slides?.map((slide, index) => (
                   <li class='slider__li'>
                     <a class='slider__li__link' href={slide.link} target='_blank'>
-                      <img src={slide.imgPath} alt=""/>
+                      <div part={`slider-image-${index + 1}`} class= 'slider__li__bg-img'style={{'background-image': `url(${slide.imgPath})`}}></div>
                       <span class='slider__li__overlay'></span>
                       <span class='slider__li__desc'>{ slide.title }</span>
                     </a>
