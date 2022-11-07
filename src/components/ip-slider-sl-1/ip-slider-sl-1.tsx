@@ -14,6 +14,7 @@ export class IpSliderSl1 {
   @Prop() slides: SlidesInterface[] | string;
 
   @Prop() slideTitle: string;
+  @Prop() slideTitleMobile: string;
 
   @Watch('slides')
   arrayDataWatcher(newValue: SlidesInterface[] | string) {
@@ -31,6 +32,8 @@ export class IpSliderSl1 {
   @State() sliderPreviousBtn;
   @State() sliderNextBtn;
 
+  @State() isMobilePortrait = false;
+
   componentWillLoad() {
     this.arrayDataWatcher(this.slides);
 
@@ -42,17 +45,21 @@ export class IpSliderSl1 {
       window.addEventListener('resize', () => {
         this.getSliderInfo();
         this.setSliderPosition(this.sliderPostion);
+        this.checkIfMobile();
       });
 
+      this.checkIfMobile();
     },0)
   }
 
   previous() {
 
-    if (this.sliderPostion > 1) {
-      this.sliderNextBtn.disabled = false;
-    } else {
+    if (this.sliderPostion === 1) {
       this.sliderPreviousBtn.disabled = true;
+    }
+
+    if (this.sliderNextBtn.disabled) {
+      this.sliderNextBtn.disabled = false;
     }
 
     this.sliderPostion --;
@@ -62,10 +69,14 @@ export class IpSliderSl1 {
 
   next() {
 
-    if (this.sliderPostion < (this.sliderItemsCounts - 3)) {
-      this.sliderPreviousBtn.disabled = false;
-    }  else {
+    const itemToTrigger = this.isMobilePortrait ? (this.sliderItemsCounts - 2) : (this.sliderItemsCounts - 3);
+
+    if (this.sliderPostion >= itemToTrigger) {
       this.sliderNextBtn.disabled = true;
+    }
+
+    if (this.sliderPreviousBtn.disabled) {
+      this.sliderPreviousBtn.disabled = false;
     }
 
     this.sliderPostion ++;
@@ -80,17 +91,25 @@ export class IpSliderSl1 {
   }
 
   getSliderInfo() {
-      const sliderItem = this.el.shadowRoot.querySelector('.slider__li') as HTMLElement;
-      const elemWidth = sliderItem.clientWidth;
-      const ElemtMarginRight = parseInt(getComputedStyle(sliderItem).marginRight);
+    const sliderItem = this.el.shadowRoot.querySelector('.slider__li') as HTMLElement;
+    const elemWidth = sliderItem.clientWidth;
+    const ElemtMarginRight = parseInt(getComputedStyle(sliderItem).marginRight);
 
-      this.sliderItemSize = elemWidth + ElemtMarginRight;
-      this.sliderUl = this.el.shadowRoot.querySelector('.slider__items__ul') as HTMLElement;
+    this.sliderItemSize = elemWidth + ElemtMarginRight;
+    this.sliderUl = this.el.shadowRoot.querySelector('.slider__items__ul') as HTMLElement;
 
-      this.sliderItemsCounts = this.el.shadowRoot.querySelectorAll('.slider__li').length;
+    this.sliderItemsCounts = this.el.shadowRoot.querySelectorAll('.slider__li').length;
 
-      this.sliderPreviousBtn = this.el.shadowRoot.querySelector('.slider__btns__previous') as HTMLElement;
-      this.sliderNextBtn = this.el.shadowRoot.querySelector('.slider__btns__next') as HTMLElement;
+    this.sliderPreviousBtn = this.el.shadowRoot.querySelector('.slider__btns__previous') as HTMLElement;
+    this.sliderNextBtn = this.el.shadowRoot.querySelector('.slider__btns__next') as HTMLElement;
+  }
+
+  checkIfMobile() {
+    if (window.matchMedia(`(max-width: 767px) and (orientation: portrait)`).matches) {
+      this.isMobilePortrait = true;
+    } else {
+      this.isMobilePortrait = false;
+    }
   }
 
   render() {
@@ -100,10 +119,11 @@ export class IpSliderSl1 {
       <div class='ip-slider-sl-1'>
 
         <div class='slider'>
+
           <div class='slider__desc'>
 
-            <p class='slider__desc__title' innerHTML={this.slideTitle ? this.slideTitle : ''}>
-            </p>
+            <h3 class='slider__desc__title' innerHTML={this.slideTitle ? this.slideTitle : ''}>
+            </h3>
 
             <div class='slider__btns'>
 
@@ -111,6 +131,8 @@ export class IpSliderSl1 {
                 <span></span>
                 <i class="arrow left"></i>
               </button>
+
+              <span class='slider__pagination'> { '0' + (this.sliderPostion + 1) }/{ '0' + this.sliderItemsCounts } </span>
 
               <button class='slider__btns__next' onClick={this.next.bind(this)}>
                 <i class="arrow right"></i>
@@ -123,10 +145,10 @@ export class IpSliderSl1 {
           <div class='slider__items'>
             <ul class='slider__items__ul'>
               {
-                this._slides?.map((slide) => (
+                this._slides?.map((slide, index) => (
                   <li class='slider__li'>
                     <a class='slider__li__link' href={slide.link} target='_blank'>
-                      <img src={slide.imgPath} alt=""/>
+                      <div part={`slider-image-${index + 1}`} class= 'slider__li__bg-img'style={{'background-image': `url(${slide.imgPath})`}}></div>
                       <span class='slider__li__overlay'></span>
                       <span class='slider__li__desc'>{ slide.title }</span>
                     </a>
@@ -135,8 +157,10 @@ export class IpSliderSl1 {
               }
             </ul>
           </div>
-        </div>
 
+          <p class='slider__title-mobile' innerHTML={this.slideTitleMobile ? this.slideTitleMobile : ''}></p>
+
+        </div>
 
       </div>
     ]
