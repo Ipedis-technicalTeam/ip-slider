@@ -7,9 +7,11 @@
 
 ## Properties
 
-| Property | Attribute | Description | Type                          | Default     |
-| -------- | --------- | ----------- | ----------------------------- | ----------- |
-| `slides` | `slides`  |             | `SlidesInterface[] \| string` | `undefined` |
+| Property           | Attribute            | Description | Type                          | Default     |
+| ------------------ | -------------------- | ----------- | ----------------------------- | ----------- |
+| `slideTitle`       | `slide-title`        |             | `string`                      | `undefined` |
+| `slideTitleMobile` | `slide-title-mobile` |             | `string`                      | `undefined` |
+| `slides`           | `slides`             |             | `SlidesInterface[] \| string` | `undefined` |
 
 
 ----------------------------------------------
