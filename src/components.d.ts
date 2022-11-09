@@ -10,6 +10,8 @@ export namespace Components {
     interface IpSlider {
     }
     interface IpSliderSl1 {
+        "btnNextAria": string;
+        "btnPreviousAria": string;
         "slideTitle": string;
         "slideTitleMobile": string;
         "slides": SlidesInterface[] | string;
@@ -37,6 +39,8 @@ declare namespace LocalJSX {
     interface IpSlider {
     }
     interface IpSliderSl1 {
+        "btnNextAria"?: string;
+        "btnPreviousAria"?: string;
         "slideTitle"?: string;
         "slideTitleMobile"?: string;
         "slides"?: SlidesInterface[] | string;

@@ -15,6 +15,8 @@ export class IpSliderSl1 {
 
   @Prop() slideTitle: string;
   @Prop() slideTitleMobile: string;
+  @Prop() btnNextAria: string;
+  @Prop() btnPreviousAria: string;
 
   @Watch('slides')
   arrayDataWatcher(newValue: SlidesInterface[] | string) {
@@ -31,6 +33,7 @@ export class IpSliderSl1 {
   @State() sliderItemsCounts;
   @State() sliderPreviousBtn;
   @State() sliderNextBtn;
+  @State() sliderLinks;
 
   @State() isMobilePortrait = false;
 
@@ -49,6 +52,8 @@ export class IpSliderSl1 {
       });
 
       this.checkIfMobile();
+
+      this.setTabIndex();
     },0)
   }
 
@@ -63,6 +68,12 @@ export class IpSliderSl1 {
     }
 
     this.sliderPostion --;
+
+    this.sliderLinks.forEach((link) => {
+      link.setAttribute('tabindex', '-1');
+    });
+    const itemFocus = this.isMobilePortrait ? 0 : 1;
+    this.sliderLinks[this.sliderPostion + itemFocus].setAttribute('tabindex', '0');
 
     this.setSliderPosition(this.sliderPostion);
   }
@@ -81,6 +92,13 @@ export class IpSliderSl1 {
 
     this.sliderPostion ++;
     this.setSliderPosition(this.sliderPostion);
+
+    this.sliderLinks.forEach((link) => {
+      link.setAttribute('tabindex', '-1');
+    });
+
+    const itemFocus = this.isMobilePortrait ? 0 : 1;
+    this.sliderLinks[this.sliderPostion + itemFocus].setAttribute('tabindex', '0');
   }
 
   setSliderPosition(elemPosition) {
@@ -102,6 +120,17 @@ export class IpSliderSl1 {
 
     this.sliderPreviousBtn = this.el.shadowRoot.querySelector('.slider__btns__previous') as HTMLElement;
     this.sliderNextBtn = this.el.shadowRoot.querySelector('.slider__btns__next') as HTMLElement;
+
+    this.sliderLinks = this.el.shadowRoot.querySelectorAll('.slider__li__link');
+  }
+
+  setTabIndex() {
+    this.sliderLinks.forEach((link, index) => {
+      const itemFocus = this.isMobilePortrait ? 0 : 1;
+      if (index > itemFocus) {
+        link.setAttribute('tabindex', '-1');
+      }
+    })
   }
 
   checkIfMobile() {
@@ -118,7 +147,7 @@ export class IpSliderSl1 {
 
       <div class='ip-slider-sl-1'>
 
-        <div class='slider'>
+        <div class='slider' aria-roledescription="carousel" aria-label={ this.slideTitleMobile }>
 
           <div class='slider__desc'>
 
@@ -127,14 +156,14 @@ export class IpSliderSl1 {
 
             <div class='slider__btns'>
 
-              <button class='slider__btns__previous' onClick={this.previous.bind(this)}>
+              <button aria-controls='slider-items' aria-label={this.btnNextAria} class='slider__btns__previous' onClick={this.previous.bind(this)}>
                 <span></span>
                 <i class="arrow left"></i>
               </button>
 
-              <span class='slider__pagination'> { '0' + (this.sliderPostion + 1) }/{ '0' + this.sliderItemsCounts } </span>
+              <span class='slider__pagination' aria-hidden='true'> { '0' + (this.sliderPostion + 1) }/{ '0' + this.sliderItemsCounts } </span>
 
-              <button class='slider__btns__next' onClick={this.next.bind(this)}>
+              <button aria-controls='slider-items' aria-label={this.btnPreviousAria} class='slider__btns__next' onClick={this.next.bind(this)}>
                 <i class="arrow right"></i>
               </button>
 
@@ -142,12 +171,12 @@ export class IpSliderSl1 {
 
           </div>
 
-          <div class='slider__items'>
+          <div class='slider__items' id='slider-items' aria-live="polite">
             <ul class='slider__items__ul'>
               {
                 this._slides?.map((slide, index) => (
-                  <li class='slider__li'>
-                    <a class='slider__li__link' href={slide.link} target='_blank'>
+                  <li class='slider__li' aria-roledescription="slide" aria-label={`${index+1}  of ${this.sliderItemsCounts} - ${slide.title}`} >
+                    <a role='group' class='slider__li__link' href={slide.link} target='_blank'>
                       <div part={`slider-image-${index + 1}`} class= 'slider__li__bg-img'style={{'background-image': `url(${slide.imgPath})`}}></div>
                       <span class='slider__li__overlay'></span>
                       <span class='slider__li__desc'>{ slide.title }</span>
