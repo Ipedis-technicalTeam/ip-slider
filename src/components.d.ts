@@ -13,6 +13,7 @@ export namespace Components {
         "btnNextAria": string;
         "btnPreviousAria": string;
         "slideTitle": string;
+        "slideTitleAria": string;
         "slideTitleMobile": string;
         "slides": SlidesInterface[] | string;
     }
@@ -42,6 +43,7 @@ declare namespace LocalJSX {
         "btnNextAria"?: string;
         "btnPreviousAria"?: string;
         "slideTitle"?: string;
+        "slideTitleAria"?: string;
         "slideTitleMobile"?: string;
         "slides"?: SlidesInterface[] | string;
     }

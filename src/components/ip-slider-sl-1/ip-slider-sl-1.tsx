@@ -17,6 +17,7 @@ export class IpSliderSl1 {
   @Prop() slideTitleMobile: string;
   @Prop() btnNextAria: string;
   @Prop() btnPreviousAria: string;
+  @Prop() slideTitleAria: string;
 
   @Watch('slides')
   arrayDataWatcher(newValue: SlidesInterface[] | string) {
@@ -147,11 +148,11 @@ export class IpSliderSl1 {
 
       <div class='ip-slider-sl-1'>
 
-        <div class='slider' aria-roledescription="carousel" aria-label={ this.slideTitleMobile }>
+        <div class='slider' aria-roledescription="carousel" aria-label={ this.slideTitleAria ? this.slideTitleAria : '' }>
 
           <div class='slider__desc'>
 
-            <h3 class='slider__desc__title' innerHTML={this.slideTitle ? this.slideTitle : ''}>
+            <h3 class='slider__desc__title' aria-label={ this.slideTitleAria ? this.slideTitleAria : '' } innerHTML={this.slideTitle ? this.slideTitle : ''}>
             </h3>
 
             <div class='slider__btns'>
@@ -187,7 +188,7 @@ export class IpSliderSl1 {
             </ul>
           </div>
 
-          <p class='slider__title-mobile' innerHTML={this.slideTitleMobile ? this.slideTitleMobile : ''}></p>
+          <h3 class='slider__title-mobile' aria-label={ this.slideTitleAria ? this.slideTitleAria : '' } innerHTML={this.slideTitleMobile ? this.slideTitleMobile : ''}></h3>
 
         </div>
 
