@@ -177,7 +177,7 @@ export class IpSliderSl1 {
               {
                 this._slides?.map((slide, index) => (
                   <li class='slider__li' aria-roledescription="slide" aria-label={`${index+1}  of ${this.sliderItemsCounts} - ${slide.title}`} >
-                    <a role='group' class='slider__li__link' target-page={slide.link}>
+                    <a role='group' class='slider__li__link' href={slide.link}>
                       <div part={`slider-image-${index + 1}`} class= 'slider__li__bg-img'style={{'background-image': `url(${slide.imgPath})`}}></div>
                       <span class='slider__li__overlay'></span>
                       <span class='slider__li__desc'>{ slide.title }</span>
