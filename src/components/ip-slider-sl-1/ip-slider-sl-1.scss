@@ -3,6 +3,7 @@
   --ip-slider-secondary-color: orange;
   --ip-slider-font-primary: 'Avenir', sans-serif;
   --ip-slider-font-secondary: 'Avenir', sans-serif;
+  --ip-slider-font-size-desc: 2.5vw;
 }
 
 $ps-breakpoint-mobile: 767px;
@@ -14,7 +15,6 @@ $ps-small-tablet: 'only screen and (max-width: #{$ps-breakpoint-small-tablet})';
 $ps-mobile-portrait: 'only screen and (max-width: #{$ps-breakpoint-mobile}) and (orientation: portrait)';
 $ps-mobile-landscape: 'only screen and (max-width: #{$ps-breakpoint-mobile-landscape}) and (orientation: landscape)';
 $ps-desktop-only: 'only screen and (min-width: #{$ps-breakpoint-tablet + 1})';
-//$ps-ipad-pro-landscape: 'only screen and (min-width: 1024px) and (max-height: 1366px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 1.5)';
 $ps-ipad-pro-landscape: 'only screen and (min-device-width: 1366px) and (max-device-height: 1024px) and (-webkit-min-device-pixel-ratio: 2)  and (orientation: landscape) and (hover:none)';
 
 .ip-slider-sl-1 {
@@ -294,7 +294,7 @@ $ps-ipad-pro-landscape: 'only screen and (min-device-width: 1366px) and (max-dev
           color: white;
           padding: 0 20%;
           font-family: var(--ip-slider-font-secondary);
-          font-size: 2.5vw;
+          font-size: var(--ip-slider-font-size-desc);
           opacity: 0;
           transform: translateY(25px);
           transition: opacity 0.3s ease-in, transform 0.3s ease-in;
@@ -312,7 +312,6 @@ $ps-ipad-pro-landscape: 'only screen and (min-device-width: 1366px) and (max-dev
           }
 
           @media #{$ps-mobile-portrait} {
-            font-size: 25px;
             padding: 0 15% 0 0;
             left: 12%;
             bottom: 12%;
