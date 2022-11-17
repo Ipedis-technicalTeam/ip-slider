@@ -54,7 +54,8 @@ export class IpSliderSl1 {
 
       this.checkIfMobile();
 
-      this.setTabIndex();
+      this.handleTabNavigation();
+
     },0)
   }
 
@@ -69,12 +70,6 @@ export class IpSliderSl1 {
     }
 
     this.sliderPostion --;
-
-    this.sliderLinks.forEach((link) => {
-      link.setAttribute('tabindex', '-1');
-    });
-    const itemFocus = this.isMobilePortrait ? 0 : 1;
-    this.sliderLinks[this.sliderPostion + itemFocus].setAttribute('tabindex', '0');
 
     this.setSliderPosition(this.sliderPostion);
   }
@@ -94,12 +89,6 @@ export class IpSliderSl1 {
     this.sliderPostion ++;
     this.setSliderPosition(this.sliderPostion);
 
-    this.sliderLinks.forEach((link) => {
-      link.setAttribute('tabindex', '-1');
-    });
-
-    const itemFocus = this.isMobilePortrait ? 0 : 1;
-    this.sliderLinks[this.sliderPostion + itemFocus].setAttribute('tabindex', '0');
   }
 
   setSliderPosition(elemPosition) {
@@ -125,21 +114,47 @@ export class IpSliderSl1 {
     this.sliderLinks = this.el.shadowRoot.querySelectorAll('.slider__li__link');
   }
 
-  setTabIndex() {
-    this.sliderLinks.forEach((link, index) => {
-      const itemFocus = this.isMobilePortrait ? 0 : 1;
-      if (index > itemFocus) {
-        link.setAttribute('tabindex', '-1');
-      }
-    })
-  }
-
   checkIfMobile() {
     if (window.matchMedia(`(max-width: 767px) and (orientation: portrait)`).matches) {
       this.isMobilePortrait = true;
     } else {
       this.isMobilePortrait = false;
     }
+  }
+
+  handleTabNavigation() {
+
+    this.sliderLinks[1].addEventListener('keydown', (event) => {
+      if (!event.shiftKey && event.key === 'Tab') {
+        this.next();
+      }
+    })
+
+    this.sliderLinks[2].addEventListener('keydown', (event) => {
+      if (!event.shiftKey && event.key === 'Tab') {
+        this.next();
+      }
+
+      if (event.shiftKey && event.key === 'Tab') {
+        this.previous();
+      }
+    })
+
+    this.sliderLinks[3].addEventListener('keydown', (event) => {
+      if (!event.shiftKey && event.key === 'Tab') {
+        this.next();
+      }
+
+      if (event.shiftKey && event.key === 'Tab') {
+        this.previous();
+      }
+    })
+
+    this.sliderLinks[4].addEventListener('keydown', (event) => {
+      if(event.shiftKey && event.key === 'Tab') {
+        this.previous();
+      }
+    })
   }
 
   render() {
@@ -157,14 +172,14 @@ export class IpSliderSl1 {
 
             <div class='slider__btns'>
 
-              <button aria-controls='slider-items' aria-label={this.btnNextAria} class='slider__btns__previous' onClick={this.previous.bind(this)}>
+              <button aria-hidden='true' tabindex='-1' aria-controls='slider-items' aria-label={this.btnNextAria} class='slider__btns__previous' onClick={this.previous.bind(this)}>
                 <span></span>
                 <i class="arrow left"></i>
               </button>
 
               <span class='slider__pagination' aria-hidden='true'> { '0' + (this.sliderPostion + 1) }/{ '0' + this.sliderItemsCounts } </span>
 
-              <button aria-controls='slider-items' aria-label={this.btnPreviousAria} class='slider__btns__next' onClick={this.next.bind(this)}>
+              <button aria-hidden='true' tabindex='-1' aria-controls='slider-items' aria-label={this.btnPreviousAria} class='slider__btns__next' onClick={this.next.bind(this)}>
                 <i class="arrow right"></i>
               </button>
 
@@ -177,7 +192,7 @@ export class IpSliderSl1 {
               {
                 this._slides?.map((slide, index) => (
                   <li class='slider__li' aria-roledescription="slide" aria-label={`${index+1}  of ${this.sliderItemsCounts} - ${slide.title}`} >
-                    <a role='group' class='slider__li__link' href={slide.link}>
+                    <a role='group' class='slider__li__link' id={`hello-${index + 1}`} href={slide.link}>
                       <div part={`slider-image-${index + 1}`} class= 'slider__li__bg-img'style={{'background-image': `url(${slide.imgPath})`}}></div>
                       <span class='slider__li__overlay'></span>
                       <span class='slider__li__desc'>{ slide.title }</span>
