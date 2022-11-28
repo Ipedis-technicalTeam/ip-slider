@@ -124,23 +124,13 @@ export class IpSliderSl1 {
 
   handleTabNavigation() {
 
-    this.sliderLinks[1].addEventListener('keydown', (event) => {
+    this.sliderLinks[1]?.addEventListener('keydown', (event) => {
       if (!event.shiftKey && event.key === 'Tab') {
         this.next();
       }
     })
 
-    this.sliderLinks[2].addEventListener('keydown', (event) => {
-      if (!event.shiftKey && event.key === 'Tab') {
-        this.next();
-      }
-
-      if (event.shiftKey && event.key === 'Tab') {
-        this.previous();
-      }
-    })
-
-    this.sliderLinks[3].addEventListener('keydown', (event) => {
+    this.sliderLinks[2]?.addEventListener('keydown', (event) => {
       if (!event.shiftKey && event.key === 'Tab') {
         this.next();
       }
@@ -150,7 +140,17 @@ export class IpSliderSl1 {
       }
     })
 
-    this.sliderLinks[4].addEventListener('keydown', (event) => {
+    this.sliderLinks[3]?.addEventListener('keydown', (event) => {
+      if (!event.shiftKey && event.key === 'Tab') {
+        this.next();
+      }
+
+      if (event.shiftKey && event.key === 'Tab') {
+        this.previous();
+      }
+    })
+
+    this.sliderLinks[4]?.addEventListener('keydown', (event) => {
       if(event.shiftKey && event.key === 'Tab') {
         this.previous();
       }
