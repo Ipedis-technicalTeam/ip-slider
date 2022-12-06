@@ -1,15 +1,16 @@
-# ip-slider-sl-1
+# ip-slider
 
 
 
 <!-- Auto Generated Below -->
 
 
-## Properties
+## Shadow Parts
 
-| Property | Attribute | Description | Type                          | Default     |
-| -------- | --------- | ----------- | ----------------------------- | ----------- |
-| `slides` | `slides`  |             | `SlidesInterface[] \| string` | `undefined` |
+| Part           | Description |
+| -------------- | ----------- |
+| `"acc-header"` |             |
+| `"acc-panel"`  |             |
 
 
 ----------------------------------------------
