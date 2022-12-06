@@ -6,58 +6,69 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { SlidesInterface } from "./components/ip-slider-sl-1/interface/slides.interface";
+import { SlidesInterface as SlidesInterface1 } from "./components/ip-slider-sl-2/interface/slides.interface";
 export namespace Components {
-    interface IpSlider {
-    }
     interface IpSliderSl1 {
+        "isSlideBullet": boolean;
+        "itemToShow": number;
+        "slideGap": number;
+        "slideTitle": string;
+        "slides": SlidesInterface[] | string;
+    }
+    interface IpSliderSl2 {
         "btnNextAria": string;
         "btnPreviousAria": string;
         "slideTitle": string;
         "slideTitleAria": string;
         "slideTitleMobile": string;
-        "slides": SlidesInterface[] | string;
+        "slides": SlidesInterface1[] | string;
     }
 }
 declare global {
-    interface HTMLIpSliderElement extends Components.IpSlider, HTMLStencilElement {
-    }
-    var HTMLIpSliderElement: {
-        prototype: HTMLIpSliderElement;
-        new (): HTMLIpSliderElement;
-    };
     interface HTMLIpSliderSl1Element extends Components.IpSliderSl1, HTMLStencilElement {
     }
     var HTMLIpSliderSl1Element: {
         prototype: HTMLIpSliderSl1Element;
         new (): HTMLIpSliderSl1Element;
     };
+    interface HTMLIpSliderSl2Element extends Components.IpSliderSl2, HTMLStencilElement {
+    }
+    var HTMLIpSliderSl2Element: {
+        prototype: HTMLIpSliderSl2Element;
+        new (): HTMLIpSliderSl2Element;
+    };
     interface HTMLElementTagNameMap {
-        "ip-slider": HTMLIpSliderElement;
         "ip-slider-sl-1": HTMLIpSliderSl1Element;
+        "ip-slider-sl-2": HTMLIpSliderSl2Element;
     }
 }
 declare namespace LocalJSX {
-    interface IpSlider {
-    }
     interface IpSliderSl1 {
+        "isSlideBullet"?: boolean;
+        "itemToShow"?: number;
+        "slideGap"?: number;
+        "slideTitle"?: string;
+        "slides"?: SlidesInterface[] | string;
+    }
+    interface IpSliderSl2 {
         "btnNextAria"?: string;
         "btnPreviousAria"?: string;
         "slideTitle"?: string;
         "slideTitleAria"?: string;
         "slideTitleMobile"?: string;
-        "slides"?: SlidesInterface[] | string;
+        "slides"?: SlidesInterface1[] | string;
     }
     interface IntrinsicElements {
-        "ip-slider": IpSlider;
         "ip-slider-sl-1": IpSliderSl1;
+        "ip-slider-sl-2": IpSliderSl2;
     }
 }
 export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
-            "ip-slider": LocalJSX.IpSlider & JSXBase.HTMLAttributes<HTMLIpSliderElement>;
             "ip-slider-sl-1": LocalJSX.IpSliderSl1 & JSXBase.HTMLAttributes<HTMLIpSliderSl1Element>;
+            "ip-slider-sl-2": LocalJSX.IpSliderSl2 & JSXBase.HTMLAttributes<HTMLIpSliderSl2Element>;
         }
     }
 }

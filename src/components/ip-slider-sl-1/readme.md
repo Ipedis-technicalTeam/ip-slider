@@ -1,20 +1,16 @@
-# ip-slider-sl-1
+# ip-slider
 
 
 
 <!-- Auto Generated Below -->
 
 
-## Properties
+## Shadow Parts
 
-| Property           | Attribute            | Description | Type                          | Default     |
-| ------------------ | -------------------- | ----------- | ----------------------------- | ----------- |
-| `btnNextAria`      | `btn-next-aria`      |             | `string`                      | `undefined` |
-| `btnPreviousAria`  | `btn-previous-aria`  |             | `string`                      | `undefined` |
-| `slideTitle`       | `slide-title`        |             | `string`                      | `undefined` |
-| `slideTitleAria`   | `slide-title-aria`   |             | `string`                      | `undefined` |
-| `slideTitleMobile` | `slide-title-mobile` |             | `string`                      | `undefined` |
-| `slides`           | `slides`             |             | `SlidesInterface[] \| string` | `undefined` |
+| Part           | Description |
+| -------------- | ----------- |
+| `"acc-header"` |             |
+| `"acc-panel"`  |             |
 
 
 ----------------------------------------------

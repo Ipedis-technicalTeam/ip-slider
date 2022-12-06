@@ -1,4 +1,4 @@
-import {Component, h, Element, Prop, Watch, State} from "@stencil/core";
+import {Component, Element, h, Prop, State, Watch} from "@stencil/core";
 import {SlidesInterface} from "./interface/slides.interface";
 
 @Component({
@@ -6,18 +6,18 @@ import {SlidesInterface} from "./interface/slides.interface";
   styleUrl: './ip-slider-sl-1.scss',
   shadow: true
 })
+
 export class IpSliderSl1 {
 
   @Element() el: HTMLElement;
 
+  @Prop() slideTitle: string;
+  @Prop() slideGap = 30;
+  @Prop() isSlideBullet = true;
+  @Prop() itemToShow = 2;
+
   private _slides: SlidesInterface[];
   @Prop() slides: SlidesInterface[] | string;
-
-  @Prop() slideTitle: string;
-  @Prop() slideTitleMobile: string;
-  @Prop() btnNextAria: string;
-  @Prop() btnPreviousAria: string;
-  @Prop() slideTitleAria: string;
 
   @Watch('slides')
   arrayDataWatcher(newValue: SlidesInterface[] | string) {
@@ -28,40 +28,64 @@ export class IpSliderSl1 {
     }
   }
 
-  @State() sliderPostion = 0;
+  @State() sliderItemWidth;
+  @State() sliderPosition = 0;
   @State() sliderUl;
-  @State() sliderItemSize;
-  @State() sliderItemsCounts;
   @State() sliderPreviousBtn;
   @State() sliderNextBtn;
-  @State() sliderLinks;
-
+  @State() sliderCounts;
   @State() isMobilePortrait = false;
+  @State() sliderBullets = [];
 
   componentWillLoad() {
-    this.arrayDataWatcher(this.slides);
+      this.arrayDataWatcher(this.slides);
 
-    setTimeout(() => {
-      this.getSliderInfo();
-
-      this.sliderPreviousBtn.disabled = true;
-
-      window.addEventListener('resize', () => {
-        this.getSliderInfo();
-        this.setSliderPosition(this.sliderPostion);
-        this.checkIfMobile();
-      });
+      setTimeout(() => {
+          this.getSliderInfo();
+          this.computeSlideWidth();
+          this.computeBullets();
+          this.sliderPreviousBtn.disabled = true;
+          this.onResize();
+      }, 0)
 
       this.checkIfMobile();
 
-      this.handleTabNavigation();
+  }
 
-    },0)
+  computeSlideWidth() {
+    const sliderContainerWidth = (this.el.shadowRoot.querySelector('.slider-items') as HTMLElement).getBoundingClientRect().width;
+
+    // slide gap is the space between slides
+    const slideGap = (this.itemToShow - 1) * this.slideGap;
+    this.sliderItemWidth = (sliderContainerWidth - slideGap)/this.itemToShow;
+
+    this.setItemSize(this.sliderItemWidth);
+  }
+
+  setItemSize(itemWidth) {
+    const itemViewportWidth = this.convertPXToVW(itemWidth);
+    this.el.shadowRoot.querySelectorAll('.slider__li').forEach((elem) => {
+      (elem as HTMLElement).style.width = `${itemViewportWidth}vw`;
+    })
+  }
+
+  convertPXToVW(px) {
+    return px * (100 / document.documentElement.clientWidth);
+  }
+
+  setSliderPosition(elemPosition) {
+
+    const elemToMove = (this.sliderItemWidth) * (elemPosition * this.itemToShow);
+    const leftPosition = -(elemToMove);
+
+    const elemGap = this.slideGap * (this.itemToShow * elemPosition);
+    this.sliderUl.style.left = (leftPosition - elemGap) + 'px';
+
   }
 
   previous() {
 
-    if (this.sliderPostion === 1) {
+    if (this.sliderPosition === 1) {
       this.sliderPreviousBtn.disabled = true;
     }
 
@@ -69,16 +93,16 @@ export class IpSliderSl1 {
       this.sliderNextBtn.disabled = false;
     }
 
-    this.sliderPostion --;
+    this.sliderPosition--;
+    this.setSliderPosition(this.sliderPosition);
 
-    this.setSliderPosition(this.sliderPostion);
   }
 
   next() {
 
-    const itemToTrigger = this.isMobilePortrait ? (this.sliderItemsCounts - 2) : (this.sliderItemsCounts - 3);
+    const itemToTrigger = Math.ceil(this.sliderCounts/this.itemToShow) - 2;
 
-    if (this.sliderPostion >= itemToTrigger) {
+    if (this.sliderPosition >= itemToTrigger) {
       this.sliderNextBtn.disabled = true;
     }
 
@@ -86,128 +110,127 @@ export class IpSliderSl1 {
       this.sliderPreviousBtn.disabled = false;
     }
 
-    this.sliderPostion ++;
-    this.setSliderPosition(this.sliderPostion);
-
-  }
-
-  setSliderPosition(elemPosition) {
-    const elemToMove = (this.sliderItemSize) * elemPosition;
-    const leftPosition = -(elemToMove);
-    const sliderUl = this.el.shadowRoot.querySelector('.slider__items__ul') as HTMLElement;
-    sliderUl.style.left = leftPosition + 'px';
+    this.sliderPosition++;
+    this.setSliderPosition(this.sliderPosition);
   }
 
   getSliderInfo() {
-    const sliderItem = this.el.shadowRoot.querySelector('.slider__li') as HTMLElement;
-    const elemWidth = sliderItem.clientWidth;
-    const ElemtMarginRight = parseInt(getComputedStyle(sliderItem).marginRight);
+    this.sliderUl = this.el.shadowRoot.querySelector('.slider__ul') as HTMLElement;
 
-    this.sliderItemSize = elemWidth + ElemtMarginRight;
-    this.sliderUl = this.el.shadowRoot.querySelector('.slider__items__ul') as HTMLElement;
+    this.sliderPreviousBtn = this.el.shadowRoot.querySelector('.btn-previous') as HTMLElement;
+    this.sliderNextBtn = this.el.shadowRoot.querySelector('.btn-next') as HTMLElement;
 
-    this.sliderItemsCounts = this.el.shadowRoot.querySelectorAll('.slider__li').length;
+    this.sliderCounts = this.el.shadowRoot.querySelectorAll('.slider__li').length;
 
-    this.sliderPreviousBtn = this.el.shadowRoot.querySelector('.slider__btns__previous') as HTMLElement;
-    this.sliderNextBtn = this.el.shadowRoot.querySelector('.slider__btns__next') as HTMLElement;
+  }
 
-    this.sliderLinks = this.el.shadowRoot.querySelectorAll('.slider__li__link');
+  onResize() {
+    window.addEventListener('resize', () => {
+      this.computeSlideWidth();
+      this.setSliderPosition(this.sliderPosition);
+      this.checkIfMobile();
+    });
   }
 
   checkIfMobile() {
     if (window.matchMedia(`(max-width: 767px) and (orientation: portrait)`).matches) {
       this.isMobilePortrait = true;
+      this.itemToShow = 1;
     } else {
       this.isMobilePortrait = false;
     }
   }
 
-  handleTabNavigation() {
+  computeBullets() {
+    const numBullets = Math.ceil(this.sliderCounts/this.itemToShow);
 
-    this.sliderLinks[1]?.addEventListener('keydown', (event) => {
-      if (!event.shiftKey && event.key === 'Tab') {
-        this.next();
-      }
-    })
+    for (let i = 0; i < numBullets; i++) {
+      this.sliderBullets.push(i);
+    }
 
-    this.sliderLinks[2]?.addEventListener('keydown', (event) => {
-      if (!event.shiftKey && event.key === 'Tab') {
-        this.next();
-      }
+  }
 
-      if (event.shiftKey && event.key === 'Tab') {
-        this.previous();
-      }
-    })
+  selectSlide(index: number) {
 
-    this.sliderLinks[3]?.addEventListener('keydown', (event) => {
-      if (!event.shiftKey && event.key === 'Tab') {
-        this.next();
-      }
+    const firstSlide = 0;
+    const lastSlide = this.sliderBullets.length - 1;
 
-      if (event.shiftKey && event.key === 'Tab') {
-        this.previous();
+    if (index === firstSlide) {
+      if (!this.sliderPreviousBtn.disabled) {
+        this.sliderPreviousBtn.disabled = true;
       }
-    })
+    }
 
-    this.sliderLinks[4]?.addEventListener('keydown', (event) => {
-      if(event.shiftKey && event.key === 'Tab') {
-        this.previous();
+    if (index != firstSlide) {
+      if (this.sliderPreviousBtn.disabled) {
+        this.sliderPreviousBtn.disabled = false;
       }
-    })
+    }
+
+    if (index != lastSlide) {
+      if (this.sliderNextBtn.disabled) {
+        this.sliderNextBtn.disabled = false;
+      }
+    }
+
+    if (index === lastSlide) {
+      if (!this.sliderNextBtn.disabled) {
+        this.sliderNextBtn.disabled = true;
+      }
+    }
+
+    this.sliderPosition = index;
+    this.setSliderPosition(this.sliderPosition);
+
   }
 
   render() {
 
+    const slideGap = this.convertPXToVW(this.slideGap);
+
     return [
+        <div class='slider'>
 
-      <div class='ip-slider-sl-1'>
+          <button class="btn btn-previous" onClick={this.previous.bind(this)}>
+          </button>
 
-        <div class='slider' aria-roledescription="carousel" aria-label={ this.slideTitleAria ? this.slideTitleAria : '' }>
-
-          <div class='slider__desc'>
-
-            <h3 class='slider__desc__title' aria-label={ this.slideTitleAria ? this.slideTitleAria : '' } innerHTML={this.slideTitle ? this.slideTitle : ''}>
-            </h3>
-
-            <div class='slider__btns'>
-
-              <button aria-hidden='true' tabindex='-1' aria-controls='slider-items' aria-label={this.btnNextAria} class='slider__btns__previous' onClick={this.previous.bind(this)}>
-                <span></span>
-                <i class="arrow left"></i>
-              </button>
-
-              <span class='slider__pagination' aria-hidden='true'> { '0' + (this.sliderPostion + 1) }/{ '0' + this.sliderItemsCounts } </span>
-
-              <button aria-hidden='true' tabindex='-1' aria-controls='slider-items' aria-label={this.btnPreviousAria} class='slider__btns__next' onClick={this.next.bind(this)}>
-                <i class="arrow right"></i>
-              </button>
-
-            </div>
-
-          </div>
-
-          <div class='slider__items' id='slider-items' aria-live="polite">
-            <ul class='slider__items__ul'>
+          <div class='slider-items'>
+            <ul class='slider__ul' style={{'gap': `${slideGap}vw`}}>
               {
                 this._slides?.map((slide, index) => (
-                  <li class='slider__li' aria-roledescription="slide" aria-label={`${index+1}  of ${this.sliderItemsCounts} - ${slide.title}`} >
-                    <a role='group' class='slider__li__link' id={`hello-${index + 1}`} href={slide.link}>
-                      <div part={`slider-image-${index + 1}`} class= 'slider__li__bg-img'style={{'background-image': `url(${slide.imgPath})`}}></div>
-                      <span class='slider__li__overlay'></span>
-                      <span class='slider__li__desc'>{ slide.title }</span>
-                    </a>
+                  <li class='slider__li'>
+                    { slide.link }
+                    <slot name={'slide-' + (index + 1)}></slot>
+
                   </li>
                 ))
               }
             </ul>
           </div>
 
-          <h3 class='slider__title-mobile' aria-label={ this.slideTitleAria ? this.slideTitleAria : '' } innerHTML={this.slideTitleMobile ? this.slideTitleMobile : ''}></h3>
+          {
+            this.isSlideBullet ?
+              <div class='slider-bullets'>
+
+                <ul class='slider-bullets__ul'>
+                  {
+                    this.sliderBullets?.map((index) => (
+                      <li class='slider-bullets__li'>
+                        <button onClick={this.selectSlide.bind(this, index)} class={this.sliderPosition === index ? 'btn-active' : ''}>
+
+                        </button>
+                      </li>
+                    ))
+                  }
+                </ul>
+              </div>
+              : ''
+          }
+
+          <button class="btn btn-next" onClick={this.next.bind(this)}>
+          </button>
 
         </div>
-
-      </div>
     ]
 
   }

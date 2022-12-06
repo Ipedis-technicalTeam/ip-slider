@@ -1,0 +1,13 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+ip-slider-sl-2::part(slider-image-2) {
+  opacity: 1;
+}
+
+ip-slider-sl-2 {
+  --ip-slider-secondary-color: orange;
+}
