@@ -1,5 +1,4 @@
-import { Component, Element, h, Prop, State, Watch } from '@stencil/core';
-import { SlidesInterface } from './interface/slides.interface';
+import { Component, Element, h, Prop, State } from '@stencil/core';
 
 @Component({
   tag: 'ip-slider-sl-1',
@@ -9,22 +8,12 @@ import { SlidesInterface } from './interface/slides.interface';
 export class IpSliderSl1 {
   @Element() el: HTMLElement;
 
+  private slides: Element[] = [];
+
   @Prop() slideTitle: string;
   @Prop() slideGap = 30;
   @Prop() isSlideBullet = true;
-  @Prop() itemToShow = 2;
-
-  private _slides: SlidesInterface[];
-  @Prop() slides: SlidesInterface[] | string;
-
-  @Watch('slides')
-  arrayDataWatcher(newValue: SlidesInterface[] | string) {
-    if (typeof newValue === 'string') {
-      this._slides = JSON.parse(newValue);
-    } else {
-      this._slides = newValue;
-    }
-  }
+  @Prop() itemToShow = 3;
 
   @State() sliderItemWidth;
   @State() sliderPosition = 0;
@@ -36,7 +25,11 @@ export class IpSliderSl1 {
   @State() sliderBullets = [];
 
   componentWillLoad() {
-    this.arrayDataWatcher(this.slides);
+    const slotElements = document.querySelectorAll('ip-slider-sl-1 [slot]');
+
+    slotElements.forEach((elem) => {
+      this.slides.push(elem);
+    })
 
     setTimeout(() => {
       this.getSliderInfo();
@@ -44,6 +37,7 @@ export class IpSliderSl1 {
       this.computeBullets();
       this.sliderPreviousBtn.disabled = true;
       this.onResize();
+      this.handleTabNavigation();
     }, 0);
 
     this.checkIfMobile();
@@ -89,6 +83,8 @@ export class IpSliderSl1 {
 
     this.sliderPosition--;
     this.setSliderPosition(this.sliderPosition);
+
+    this.handleTabNavigation();
   }
 
   next() {
@@ -104,6 +100,8 @@ export class IpSliderSl1 {
 
     this.sliderPosition++;
     this.setSliderPosition(this.sliderPosition);
+
+    this.handleTabNavigation();
   }
 
   getSliderInfo() {
@@ -170,6 +168,34 @@ export class IpSliderSl1 {
 
     this.sliderPosition = index;
     this.setSliderPosition(this.sliderPosition);
+
+    this.handleTabNavigation();
+  }
+
+  handleTabNavigation() {
+
+    this.slides.forEach((elem) => {
+      const linkElement = elem.querySelector('a');
+      linkElement?.setAttribute('tabindex', '-1');
+      linkElement?.setAttribute('title', '-1');
+    });
+
+    const startingIndex = this.sliderPosition * this.itemToShow;
+    for (let i = startingIndex; i < startingIndex + this.itemToShow; i++) {
+      const linkElement = this.slides[i]?.querySelector('a');
+      linkElement?.setAttribute('tabindex', '0');
+      linkElement?.setAttribute('title', '0');
+    }
+  }
+
+  forceFocus(event: KeyboardEvent) {
+
+    if (event.key === 'Enter') {
+      setTimeout( () => {
+        const startingIndex = this.sliderPosition * this.itemToShow;
+        this.slides[startingIndex].querySelector('a').focus();
+      }, 100);
+    }
   }
 
   render() {
@@ -177,25 +203,27 @@ export class IpSliderSl1 {
 
     return [
       <div class="slider">
-        <button part="left-btn" class="btn btn-previous" onClick={this.previous.bind(this)}></button>
 
         <div class="slider-items">
           <ul class="slider__ul" style={{ gap: `${slideGap}vw` }}>
-            {this._slides?.map((slide, index) => (
+            {this.slides?.map((slide, index) => (
               <li class="slider__li">
-                {slide.link}
+                <p style={{'display': 'none'}}> { slide.clientWidth }</p>
                 <slot name={'slide-' + (index + 1)}></slot>
               </li>
             ))}
           </ul>
         </div>
 
+        <button part="left-btn" class="btn btn-previous" onClick={this.previous.bind(this)} onKeyPress={this.forceFocus.bind(this)}></button>
+        <button part="right-btn" class="btn btn-next" onClick={this.next.bind(this)} onKeyPress={this.forceFocus.bind(this)}></button>
+
         {this.isSlideBullet ? (
           <div class="slider-bullets">
             <ul class="slider-bullets__ul">
               {this.sliderBullets?.map(index => (
                 <li class="slider-bullets__li">
-                  <button onClick={this.selectSlide.bind(this, index)} class={this.sliderPosition === index ? 'btn-active' : ''}></button>
+                  <button onClick={this.selectSlide.bind(this, index)} onKeyPress={this.forceFocus.bind(this)} class={this.sliderPosition === index ? 'btn-active' : ''}></button>
                 </li>
               ))}
             </ul>
@@ -204,8 +232,8 @@ export class IpSliderSl1 {
           ''
         )}
 
-        <button part="right-btn" class="btn btn-next" onClick={this.next.bind(this)}></button>
       </div>,
     ];
   }
+
 }
