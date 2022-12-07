@@ -27,15 +27,16 @@ export class IpSliderSl1 {
   componentWillLoad() {
     const slotElements = document.querySelectorAll('ip-slider-sl-1 [slot]');
 
-    slotElements.forEach((elem) => {
+    slotElements.forEach(elem => {
       this.slides.push(elem);
-    })
+    });
 
     setTimeout(() => {
       this.getSliderInfo();
       this.computeSlideWidth();
       this.computeBullets();
       this.sliderPreviousBtn.disabled = true;
+      this.sliderPreviousBtn.part = 'left-btn disabled';
       this.onResize();
       this.handleTabNavigation();
     }, 0);
@@ -75,10 +76,12 @@ export class IpSliderSl1 {
   previous() {
     if (this.sliderPosition === 1) {
       this.sliderPreviousBtn.disabled = true;
+      this.sliderPreviousBtn.part = 'left-btn disabled';
     }
 
     if (this.sliderNextBtn.disabled) {
       this.sliderNextBtn.disabled = false;
+      this.sliderNextBtn.part = 'right-btn';
     }
 
     this.sliderPosition--;
@@ -92,10 +95,12 @@ export class IpSliderSl1 {
 
     if (this.sliderPosition >= itemToTrigger) {
       this.sliderNextBtn.disabled = true;
+      this.sliderNextBtn.part = 'right-btn disabled';
     }
 
     if (this.sliderPreviousBtn.disabled) {
       this.sliderPreviousBtn.disabled = false;
+      this.sliderPreviousBtn.part = 'left-btn';
     }
 
     this.sliderPosition++;
@@ -145,24 +150,28 @@ export class IpSliderSl1 {
     if (index === firstSlide) {
       if (!this.sliderPreviousBtn.disabled) {
         this.sliderPreviousBtn.disabled = true;
+        this.sliderPreviousBtn.part = 'left-btn disabled';
       }
     }
 
     if (index != firstSlide) {
       if (this.sliderPreviousBtn.disabled) {
         this.sliderPreviousBtn.disabled = false;
+        this.sliderPreviousBtn.part = 'left-btn';
       }
     }
 
     if (index != lastSlide) {
       if (this.sliderNextBtn.disabled) {
         this.sliderNextBtn.disabled = false;
+        this.sliderNextBtn.part = 'right-btn';
       }
     }
 
     if (index === lastSlide) {
       if (!this.sliderNextBtn.disabled) {
         this.sliderNextBtn.disabled = true;
+        this.sliderNextBtn.part = 'right-btn disabled';
       }
     }
 
@@ -173,8 +182,7 @@ export class IpSliderSl1 {
   }
 
   handleTabNavigation() {
-
-    this.slides.forEach((elem) => {
+    this.slides.forEach(elem => {
       const linkElement = elem.querySelector('a');
       linkElement?.setAttribute('tabindex', '-1');
       linkElement?.setAttribute('title', '-1');
@@ -189,9 +197,8 @@ export class IpSliderSl1 {
   }
 
   forceFocus(event: KeyboardEvent) {
-
     if (event.key === 'Enter') {
-      setTimeout( () => {
+      setTimeout(() => {
         const startingIndex = this.sliderPosition * this.itemToShow;
         this.slides[startingIndex].querySelector('a').focus();
       }, 100);
@@ -203,12 +210,11 @@ export class IpSliderSl1 {
 
     return [
       <div class="slider">
-
         <div class="slider-items">
           <ul class="slider__ul" style={{ gap: `${slideGap}vw` }}>
             {this.slides?.map((slide, index) => (
               <li class="slider__li">
-                <p style={{'display': 'none'}}> { slide.clientWidth }</p>
+                <p style={{ display: 'none' }}>{slide.clientWidth}</p>
                 <slot name={'slide-' + (index + 1)}></slot>
               </li>
             ))}
@@ -231,9 +237,7 @@ export class IpSliderSl1 {
         ) : (
           ''
         )}
-
       </div>,
     ];
   }
-
 }
