@@ -5,15 +5,13 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { SlidesInterface } from "./components/ip-slider-sl-1/interface/slides.interface";
-import { SlidesInterface as SlidesInterface1 } from "./components/ip-slider-sl-2/interface/slides.interface";
+import { SlidesInterface } from "./components/ip-slider-sl-2/interface/slides.interface";
 export namespace Components {
     interface IpSliderSl1 {
         "isSlideBullet": boolean;
         "itemToShow": number;
         "slideGap": number;
         "slideTitle": string;
-        "slides": SlidesInterface[] | string;
     }
     interface IpSliderSl2 {
         "btnNextAria": string;
@@ -21,7 +19,7 @@ export namespace Components {
         "slideTitle": string;
         "slideTitleAria": string;
         "slideTitleMobile": string;
-        "slides": SlidesInterface1[] | string;
+        "slides": SlidesInterface[] | string;
     }
 }
 declare global {
@@ -48,7 +46,6 @@ declare namespace LocalJSX {
         "itemToShow"?: number;
         "slideGap"?: number;
         "slideTitle"?: string;
-        "slides"?: SlidesInterface[] | string;
     }
     interface IpSliderSl2 {
         "btnNextAria"?: string;
@@ -56,7 +53,7 @@ declare namespace LocalJSX {
         "slideTitle"?: string;
         "slideTitleAria"?: string;
         "slideTitleMobile"?: string;
-        "slides"?: SlidesInterface1[] | string;
+        "slides"?: SlidesInterface[] | string;
     }
     interface IntrinsicElements {
         "ip-slider-sl-1": IpSliderSl1;
