@@ -234,7 +234,7 @@ export class IpSliderSl1 {
             <ul class="slider-bullets__ul">
               {this.sliderBullets?.map(index => (
                 <li class="slider-bullets__li">
-                  <button onClick={this.selectSlide.bind(this, index)} onKeyPress={this.forceFocus.bind(this)} class={this.sliderPosition === index ? 'btn-active' : ''}></button>
+                  <button part={this.sliderPosition === index ? 'bullet-btn bullet-btn-active' : 'bullet-btn'} onClick={this.selectSlide.bind(this, index)} onKeyPress={this.forceFocus.bind(this)} class={this.sliderPosition === index ? 'btn-active' : null}></button>
                 </li>
               ))}
             </ul>
