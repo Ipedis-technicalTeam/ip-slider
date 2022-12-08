@@ -40,7 +40,7 @@ export class IpSliderSl1 {
       this.sliderPreviousBtn.part = 'left-btn disabled';
       this.onResize();
       this.handleTabNavigation();
-    }, 0);
+    }, 100);
 
     this.checkIfMobile();
   }
