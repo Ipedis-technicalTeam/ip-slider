@@ -13,6 +13,7 @@ export class IpSliderSl1 {
   @Prop() slideTitle: string;
   @Prop() slideGap = 30;
   @Prop() isSlideBullet = true;
+  @Prop() isPreviousNextNavigation = true;
   @Prop() itemToShow = 3;
 
   @State() sliderItemWidth;
@@ -221,8 +222,12 @@ export class IpSliderSl1 {
           </ul>
         </div>
 
-        <button part="left-btn" class="btn btn-previous" onClick={this.previous.bind(this)} onKeyPress={this.forceFocus.bind(this)}></button>
-        <button part="right-btn" class="btn btn-next" onClick={this.next.bind(this)} onKeyPress={this.forceFocus.bind(this)}></button>
+        { this.isPreviousNextNavigation ? (
+          <div>
+            <button part="left-btn" class="btn btn-previous" onClick={this.previous.bind(this)} onKeyPress={this.forceFocus.bind(this)}></button>
+            <button part="right-btn" class="btn btn-next" onClick={this.next.bind(this)} onKeyPress={this.forceFocus.bind(this)}></button>
+          </div>
+        ) : ''}
 
         {this.isSlideBullet ? (
           <div class="slider-bullets">
