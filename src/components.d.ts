@@ -8,6 +8,7 @@ import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { SlidesInterface } from "./components/ip-slider-sl-2/interface/slides.interface";
 export namespace Components {
     interface IpSliderSl1 {
+        "isPreviousNextNavigation": boolean;
         "isSlideBullet": boolean;
         "itemToShow": number;
         "slideGap": number;
@@ -42,6 +43,7 @@ declare global {
 }
 declare namespace LocalJSX {
     interface IpSliderSl1 {
+        "isPreviousNextNavigation"?: boolean;
         "isSlideBullet"?: boolean;
         "itemToShow"?: number;
         "slideGap"?: number;

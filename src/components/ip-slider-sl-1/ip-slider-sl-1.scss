@@ -27,6 +27,10 @@
   }
 
   .slider-bullets {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+
     .slider-bullets__ul {
         display: flex;
         justify-content: center;
