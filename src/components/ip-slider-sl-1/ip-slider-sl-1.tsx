@@ -187,14 +187,12 @@ export class IpSliderSl1 {
     this.slides.forEach(elem => {
       const linkElement = elem.querySelector('a');
       linkElement?.setAttribute('tabindex', '-1');
-      linkElement?.setAttribute('title', '-1');
     });
 
     const startingIndex = this.sliderPosition * this.itemToShow;
     for (let i = startingIndex; i < startingIndex + this.itemToShow; i++) {
       const linkElement = this.slides[i]?.querySelector('a');
       linkElement?.setAttribute('tabindex', '0');
-      linkElement?.setAttribute('title', '0');
     }
   }
 
@@ -214,9 +212,8 @@ export class IpSliderSl1 {
       <div class="slider">
         <div class="slider-items">
           <ul class="slider__ul" style={{ gap: `${slideGap}vw` }}>
-            {this.slides?.map((slide, index) => (
+            {this.slides?.map((_slide, index) => (
               <li class="slider__li">
-                <p style={{ display: 'none' }}>{slide.clientWidth}</p>
                 <slot name={'slide-' + (index + 1)}></slot>
               </li>
             ))}
