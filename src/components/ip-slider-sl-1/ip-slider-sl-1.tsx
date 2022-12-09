@@ -26,7 +26,8 @@ export class IpSliderSl1 {
   @State() sliderBullets = [];
 
   componentWillLoad() {
-    const slotElements = document.querySelectorAll('ip-slider-sl-1 [slot]');
+
+    const slotElements = this.el.querySelectorAll('[slot]');
 
     slotElements.forEach(elem => {
       this.slides.push(elem);
