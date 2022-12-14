@@ -6,6 +6,7 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { SlidesInterface } from "./components/ip-slider-sl-2/interface/slides.interface";
+import { SlidesInterface as SlidesInterface1 } from "./components/ip-slider-sl-3/interface/slides.interface";
 export namespace Components {
     interface IpSliderSl1 {
         "isPreviousNextNavigation": boolean;
@@ -22,6 +23,11 @@ export namespace Components {
         "slideTitleMobile": string;
         "slides": SlidesInterface[] | string;
     }
+    interface IpSliderSl3 {
+        "isAutoSlide": boolean;
+        "isSlideBullet": boolean;
+        "slides": SlidesInterface1[] | string;
+    }
 }
 declare global {
     interface HTMLIpSliderSl1Element extends Components.IpSliderSl1, HTMLStencilElement {
@@ -36,9 +42,16 @@ declare global {
         prototype: HTMLIpSliderSl2Element;
         new (): HTMLIpSliderSl2Element;
     };
+    interface HTMLIpSliderSl3Element extends Components.IpSliderSl3, HTMLStencilElement {
+    }
+    var HTMLIpSliderSl3Element: {
+        prototype: HTMLIpSliderSl3Element;
+        new (): HTMLIpSliderSl3Element;
+    };
     interface HTMLElementTagNameMap {
         "ip-slider-sl-1": HTMLIpSliderSl1Element;
         "ip-slider-sl-2": HTMLIpSliderSl2Element;
+        "ip-slider-sl-3": HTMLIpSliderSl3Element;
     }
 }
 declare namespace LocalJSX {
@@ -57,9 +70,15 @@ declare namespace LocalJSX {
         "slideTitleMobile"?: string;
         "slides"?: SlidesInterface[] | string;
     }
+    interface IpSliderSl3 {
+        "isAutoSlide"?: boolean;
+        "isSlideBullet"?: boolean;
+        "slides"?: SlidesInterface1[] | string;
+    }
     interface IntrinsicElements {
         "ip-slider-sl-1": IpSliderSl1;
         "ip-slider-sl-2": IpSliderSl2;
+        "ip-slider-sl-3": IpSliderSl3;
     }
 }
 export { LocalJSX as JSX };
@@ -68,6 +87,7 @@ declare module "@stencil/core" {
         interface IntrinsicElements {
             "ip-slider-sl-1": LocalJSX.IpSliderSl1 & JSXBase.HTMLAttributes<HTMLIpSliderSl1Element>;
             "ip-slider-sl-2": LocalJSX.IpSliderSl2 & JSXBase.HTMLAttributes<HTMLIpSliderSl2Element>;
+            "ip-slider-sl-3": LocalJSX.IpSliderSl3 & JSXBase.HTMLAttributes<HTMLIpSliderSl3Element>;
         }
     }
 }
