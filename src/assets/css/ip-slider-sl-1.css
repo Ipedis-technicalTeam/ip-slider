@@ -4,11 +4,15 @@
   box-sizing: border-box;
 }
 
-.slider-content a {
+.slider-content {
+  height: 100%;
+}
+.slider-content {
   border: 1px solid red;
 
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 20px;
+  height: 100%;
 }
