@@ -146,10 +146,10 @@ export class IpSliderSl3 {
           <ul class="slider__ul">
             {this._slides?.map((slide) => (
               <li class="slider__li">
-                <a href={ slide.link } target="_blank" tabindex="-1">
+                <a class='slider__link' href={ slide.link } target="_blank" tabindex="-1">
                   <span class='slider-overlay'></span>
                   <span class="slider__bg" style={{'background-image': `url(${slide.imgPath})`}}></span>
-                  <p class='slider__desc'> { slide.title } </p>
+                  <p part="slider-desc" class='slider__desc'> { slide.title } </p>
                 </a>
               </li>
             ))}
@@ -158,14 +158,14 @@ export class IpSliderSl3 {
         </div>
 
         <div class='slider-play-pause-container'>
-            <button class='slider-play-pause'  onClick={this.playPauseAnimation.bind(this)}>
+            <button part='slider-play-pause' class='slider-play-pause'  onClick={this.playPauseAnimation.bind(this)}>
                 <img class='play' src={getAssetPath('assets/images/play.svg')} alt=""/>
                 <img class='pause' src={getAssetPath('assets/images/pause.svg')} alt=""/>
             </button>
         </div>
 
         {this.isSlideBullet ? (
-          <div class="slider-bullets">
+          <div part='slider-bullets' class="slider-bullets">
             <ul class="slider-bullets__ul">
               {this.sliderBullets?.map(index => (
                 <li class="slider-bullets__li active">
