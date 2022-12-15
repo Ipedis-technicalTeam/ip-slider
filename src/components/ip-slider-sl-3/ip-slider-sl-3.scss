@@ -1,7 +1,7 @@
-
 :host {
   --ip-sl-primary-color: #ffffff;
   --ip-sl-secondary-color: #2e3243;
+  --ip-sl-font: 'Avenir', sans-serif;
 }
 
 .slider {
@@ -49,7 +49,8 @@
             top: 20px;
             left: 20px;
             margin: 0px;
-            color: #ffffff;
+            color: var(--ip-sl-primary-color);
+            font-family: var(--ip-acc-font);
             font-size: 20px;
           }
 

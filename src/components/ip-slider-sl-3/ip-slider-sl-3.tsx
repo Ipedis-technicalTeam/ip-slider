@@ -32,6 +32,7 @@ export class IpSliderSl3 {
   @State() sliderPosition = 0;
   @State() slidesLi;
   @State() isAutoPlaying = false;
+  @State() isTransitionRunning = false;
 
   componentWillLoad() {
     this.arrayDataWatcher(this.slides);
@@ -40,7 +41,7 @@ export class IpSliderSl3 {
       this.getSliderInfo();
       this.computeBullets();
       this.setSliderPosition(this.sliderPosition);
-      // this.handleAutoSlide();
+      this.handleAutoSlide();
     }, 0);
   }
 
@@ -51,26 +52,39 @@ export class IpSliderSl3 {
 
   setSliderPosition(index) {
 
-    this.sliderPosition = index;
-    this.slidesLi[index].classList.add('active');
+    if (this.isTransitionRunning) {
+      window.clearInterval(this.sliderTimer);
+      this.sliderPosition = index;
 
-    const activeLink = this.slidesLi[index].querySelector('a');
-    activeLink.setAttribute('tabindex', '0');
+      setTimeout(() => {
+        this.setSliderPosition(this.sliderPosition);
+        this.handleAutoSlide();
+      }, 500)
+    } else {
 
-    const newSlide = Array.from(this.slidesLi).filter((_item: any, index) => {
-      return index != this.sliderPosition;
-    });
+      this.isTransitionRunning = true;
+      this.sliderPosition = index;
+      this.slidesLi[index].classList.add('active');
 
-    setTimeout(() => {
-      this.slidesLi[index].style.zIndex = "0";
-      newSlide.forEach((slideLi: HTMLElement) => {
-        slideLi.classList.remove('active');
-        slideLi.style.zIndex = "1";
+      const activeLink = this.slidesLi[index].querySelector('a');
+      activeLink.setAttribute('tabindex', '0');
 
-        slideLi.querySelector('a').setAttribute('tabindex', '-1');
+      const newSlide = Array.from(this.slidesLi).filter((_item: any, index) => {
+        return index != this.sliderPosition;
       });
-    }, 500);
 
+      setTimeout(() => {
+        this.slidesLi[index].style.zIndex = "0";
+        newSlide.forEach((slideLi: HTMLElement) => {
+          slideLi.classList.remove('active');
+          slideLi.style.zIndex = "1";
+
+          slideLi.querySelector('a').setAttribute('tabindex', '-1');
+
+          this.isTransitionRunning = false;
+        });
+      }, 500);
+    }
   }
 
   computeBullets() {
@@ -81,6 +95,11 @@ export class IpSliderSl3 {
 
   selectSlide(index: number) {
     this.setSliderPosition(index);
+
+    window.clearInterval(this.sliderTimer);
+    this.sliderPosition = index;
+
+    this.handleAutoSlide();
   }
 
   handleAutoSlide() {
@@ -92,7 +111,6 @@ export class IpSliderSl3 {
         } else {
           this.sliderPosition = 0;
         }
-
         this.setSliderPosition(this.sliderPosition);
       }, 3000)
     }
@@ -128,7 +146,7 @@ export class IpSliderSl3 {
           <ul class="slider__ul">
             {this._slides?.map((slide) => (
               <li class="slider__li">
-                <a href={ slide.link } tabindex="-1">
+                <a href={ slide.link } target="_blank" tabindex="-1">
                   <span class='slider-overlay'></span>
                   <span class="slider__bg" style={{'background-image': `url(${slide.imgPath})`}}></span>
                   <p class='slider__desc'> { slide.title } </p>
@@ -163,6 +181,5 @@ export class IpSliderSl3 {
       </div>,
     ];
   }
-
 
 }
