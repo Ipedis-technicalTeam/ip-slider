@@ -9,9 +9,13 @@ import { SlidesInterface } from "./components/ip-slider-sl-2/interface/slides.in
 import { SlidesInterface as SlidesInterface1 } from "./components/ip-slider-sl-3/interface/slides.interface";
 export namespace Components {
     interface IpSliderSl1 {
+        "bulletBtnAria": string;
+        "bulletBtnAriaTo": string;
         "isPreviousNextNavigation": boolean;
         "isSlideBullet": boolean;
         "itemToShow": number;
+        "nextBtnAria": string;
+        "previousBtnAria": string;
         "slideGap": number;
         "slideTitle": string;
     }
@@ -26,6 +30,8 @@ export namespace Components {
     interface IpSliderSl3 {
         "isAutoSlide": boolean;
         "isSlideBullet": boolean;
+        "slidePauseIcon": any;
+        "slidePlayIcon": any;
         "slides": SlidesInterface1[] | string;
     }
 }
@@ -56,9 +62,13 @@ declare global {
 }
 declare namespace LocalJSX {
     interface IpSliderSl1 {
+        "bulletBtnAria"?: string;
+        "bulletBtnAriaTo"?: string;
         "isPreviousNextNavigation"?: boolean;
         "isSlideBullet"?: boolean;
         "itemToShow"?: number;
+        "nextBtnAria"?: string;
+        "previousBtnAria"?: string;
         "slideGap"?: number;
         "slideTitle"?: string;
     }
@@ -73,6 +83,8 @@ declare namespace LocalJSX {
     interface IpSliderSl3 {
         "isAutoSlide"?: boolean;
         "isSlideBullet"?: boolean;
+        "slidePauseIcon"?: any;
+        "slidePlayIcon"?: any;
         "slides"?: SlidesInterface1[] | string;
     }
     interface IntrinsicElements {

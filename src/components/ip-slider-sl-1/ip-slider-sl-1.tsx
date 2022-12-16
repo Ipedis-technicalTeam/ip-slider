@@ -15,6 +15,10 @@ export class IpSliderSl1 {
   @Prop() isSlideBullet = true;
   @Prop() isPreviousNextNavigation = true;
   @Prop() itemToShow = 3;
+  @Prop() previousBtnAria = '';
+  @Prop() nextBtnAria = '';
+  @Prop() bulletBtnAria = '';
+  @Prop() bulletBtnAriaTo = '';
 
   @State() sliderItemWidth;
   @State() sliderPosition = 0;
@@ -201,7 +205,7 @@ export class IpSliderSl1 {
       setTimeout(() => {
         const startingIndex = this.sliderPosition * this.itemToShow;
         this.slides[startingIndex].querySelector('a').focus();
-      }, 100);
+      }, 500);
     }
   }
 
@@ -222,8 +226,8 @@ export class IpSliderSl1 {
 
         { this.isPreviousNextNavigation ? (
           <div>
-            <button part="left-btn" class="btn btn-previous" onClick={this.previous.bind(this)} onKeyPress={this.forceFocus.bind(this)}></button>
-            <button part="right-btn" class="btn btn-next" onClick={this.next.bind(this)} onKeyPress={this.forceFocus.bind(this)}></button>
+            <button part="left-btn" aria-label={this.previousBtnAria} class="btn btn-previous" onClick={this.previous.bind(this)} onKeyPress={this.forceFocus.bind(this)}></button>
+            <button part="right-btn" aria-label={this.nextBtnAria} class="btn btn-next" onClick={this.next.bind(this)} onKeyPress={this.forceFocus.bind(this)}></button>
           </div>
         ) : ''}
 
@@ -232,7 +236,13 @@ export class IpSliderSl1 {
             <ul class="slider-bullets__ul">
               {this.sliderBullets?.map(index => (
                 <li class="slider-bullets__li">
-                  <button part={this.sliderPosition === index ? 'bullet-btn bullet-btn-active' : 'bullet-btn'} onClick={this.selectSlide.bind(this, index)} onKeyPress={this.forceFocus.bind(this)} class={this.sliderPosition === index ? 'btn-active' : null}></button>
+                  <button
+                    title = {`${(this.sliderBullets.length - 1) === index}`}
+                    part={this.sliderPosition === index ? 'bullet-btn bullet-btn-active' : 'bullet-btn'}
+                    onClick={this.selectSlide.bind(this, index)}
+                    onKeyPress={this.forceFocus.bind(this)} class={this.sliderPosition === index ? 'btn-active' : null}
+                    aria-label={this.isMobilePortrait ? this.bulletBtnAria + ' ' + `${(index+1) + '/' + this.sliderCounts}` : this.bulletBtnAria + ' ' + `${((index) * this.itemToShow) + 1}` + ' ' + this.bulletBtnAriaTo + ' ' + `${ (this.sliderBullets.length - 1) === index ? this.sliderCounts : ((index) * this.itemToShow) + this.itemToShow}`}>
+                  </button>
                 </li>
               ))}
             </ul>

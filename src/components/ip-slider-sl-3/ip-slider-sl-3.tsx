@@ -1,11 +1,10 @@
-import {Component, Element, getAssetPath, h, Prop, State, Watch} from '@stencil/core';
+import {Component, Element, h, Prop, State, Watch} from '@stencil/core';
 import {SlidesInterface} from "./interface/slides.interface";
 
 @Component({
   tag: 'ip-slider-sl-3',
   styleUrl: './ip-slider-sl-3.scss',
-  shadow: true,
-  assetsDirs: ['assets'],
+  shadow: true
 })
 export class IpSliderSl3 {
   @Element() el: HTMLElement;
@@ -26,6 +25,9 @@ export class IpSliderSl3 {
 
   @Prop() isSlideBullet = true;
   @Prop() isAutoSlide = true;
+
+  @Prop() slidePlayIcon;
+  @Prop() slidePauseIcon;
 
   @State() sliderBullets = [];
   @State() sliderCounts;
@@ -159,8 +161,8 @@ export class IpSliderSl3 {
 
         <div class='slider-play-pause-container'>
             <button part='slider-play-pause' class='slider-play-pause'  onClick={this.playPauseAnimation.bind(this)}>
-                <img class='play' src={getAssetPath('assets/images/play.svg')} alt=""/>
-                <img class='pause' src={getAssetPath('assets/images/pause.svg')} alt=""/>
+                <img class='play' src={this.slidePlayIcon} alt=""/>
+                <img class='pause' src={this.slidePauseIcon} alt=""/>
             </button>
         </div>
 
