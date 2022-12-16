@@ -75,12 +75,12 @@
 
     &.btn-previous {
       transform: rotate(135deg);
-      left: 40px;
+      left: -40px;
     }
 
     &.btn-next {
       transform: rotate(-45deg);
-      right: 40px;
+      right: -40px;
     }
   }
 }
