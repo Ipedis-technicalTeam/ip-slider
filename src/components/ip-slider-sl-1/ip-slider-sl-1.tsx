@@ -237,7 +237,7 @@ export class IpSliderSl1 {
               {this.sliderBullets?.map(index => (
                 <li class="slider-bullets__li">
                   <button
-                    title = {`${(this.sliderBullets.length - 1) === index}`}
+                    aria-current = {this.sliderPosition === index ? 'true' : null}
                     part={this.sliderPosition === index ? 'bullet-btn bullet-btn-active' : 'bullet-btn'}
                     onClick={this.selectSlide.bind(this, index)}
                     onKeyPress={this.forceFocus.bind(this)} class={this.sliderPosition === index ? 'btn-active' : null}
