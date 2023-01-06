@@ -29,6 +29,10 @@ export class IpSliderSl3 {
   @Prop() slidePlayIcon;
   @Prop() slidePauseIcon;
 
+  @Prop() ariaPauseAnimation;
+  @Prop() ariaPlayAnimation;
+  @Prop() ariaBulletButton;
+
   @State() sliderBullets = [];
   @State() sliderCounts;
   @State() sliderPosition = 0;
@@ -135,10 +139,33 @@ export class IpSliderSl3 {
     }
   }
 
+  forceFocus(index: number, event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      setTimeout(() => {
+        this.el.shadowRoot.querySelectorAll('.slider__li')[index].querySelector('a').focus();
+      }, 100);
+    }
+  }
+
   render() {
 
     return [
-      <div class="slider">
+      <div class="slider" role="application">
+
+        {this.isAutoSlide ? (
+          <div class='slider-play-pause-container'>
+            <button
+              part='slider-play-pause'
+              class='slider-play-pause'
+              onClick={this.playPauseAnimation.bind(this)}
+              aria-label={this.isAutoPlaying ?  this.ariaPlayAnimation : this.ariaPauseAnimation}>
+                <img aria-hidden='true' class='play' src={this.slidePlayIcon} alt=""/>
+                <img aria-hidden='true' class='pause' src={this.slidePauseIcon} alt=""/>
+            </button>
+          </div>
+        ) : (
+          ''
+        )}
 
         <div class="slider-items">
 
@@ -159,19 +186,18 @@ export class IpSliderSl3 {
 
         </div>
 
-        <div class='slider-play-pause-container'>
-            <button part='slider-play-pause' class='slider-play-pause'  onClick={this.playPauseAnimation.bind(this)}>
-                <img class='play' src={this.slidePlayIcon} alt=""/>
-                <img class='pause' src={this.slidePauseIcon} alt=""/>
-            </button>
-        </div>
-
         {this.isSlideBullet ? (
           <div part='slider-bullets' class="slider-bullets">
             <ul class="slider-bullets__ul">
               {this.sliderBullets?.map(index => (
                 <li class="slider-bullets__li active">
-                  <button class={this.sliderPosition === index ? 'btn-active' : null} part={this.sliderPosition === index ? 'bullet-btn bullet-btn-active' : 'bullet-btn'} onClick={this.selectSlide.bind(this, index)}></button>
+                  <button
+                    class={this.sliderPosition === index ? 'btn-active' : null}
+                    part={this.sliderPosition === index ? 'bullet-btn bullet-btn-active' : 'bullet-btn'}
+                    onClick={this.selectSlide.bind(this, index)}
+                    onKeyPress={this.forceFocus.bind(this, index)}
+                    aria-label={`${this.ariaBulletButton} ${index + 1}`} >
+                  </button>
                 </li>
               ))}
             </ul>

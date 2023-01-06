@@ -28,6 +28,9 @@ export namespace Components {
         "slides": SlidesInterface[] | string;
     }
     interface IpSliderSl3 {
+        "ariaBulletButton": any;
+        "ariaPauseAnimation": any;
+        "ariaPlayAnimation": any;
         "isAutoSlide": boolean;
         "isSlideBullet": boolean;
         "slidePauseIcon": any;
@@ -81,6 +84,9 @@ declare namespace LocalJSX {
         "slides"?: SlidesInterface[] | string;
     }
     interface IpSliderSl3 {
+        "ariaBulletButton"?: any;
+        "ariaPauseAnimation"?: any;
+        "ariaPlayAnimation"?: any;
         "isAutoSlide"?: boolean;
         "isSlideBullet"?: boolean;
         "slidePauseIcon"?: any;

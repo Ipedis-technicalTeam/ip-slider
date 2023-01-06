@@ -15,88 +15,26 @@
   </head>
   <body>
 
+      <div style="max-width: 580px; height: 400px; margin: 50px auto">
 
-  <div style="max-width: 1200px; height: auto; margin: 50px auto">
-
-    <ip-slider-sl-1
-      slide-title='Slider Title'
-      slide-gap="30"
-      is-slide-bullet="true"
-      is-previous-next-navigation="true"
-      item-to-show = '3'
-      previous-btn-aria="Afficher les diapos précédentes"
-      next-btn-aria="Afficher les diapos suivantes"
-      bullet-btn-aria="Afficher les diapos"
-      bullet-btn-aria-to="à">
-
-      <div class="slider-content" slot="slide-1">
-
-        <a href="#">
-          <img class="slider__image" src="assets/images/ip-slider-sl-2/slide-1.png" alt="" />
-          <p class='slider__desc'>1 - Martell prend son envol au Nigeria</p>
-        </a>
+        <ip-slider-sl-3
+          slide-play-icon="assets/images/ip-slider-sl-3/play.svg"
+          slide-pause-icon="assets/images/ip-slider-sl-3/pause.svg"
+          is-slide-bullet="true"
+          is-auto-slide="true"
+          aria-pause-animation="Arreter l'animation"
+          aria-play-animation="Lancer l'animation"
+          aria-bullet-button="Aller à la diapo"
+          slides='[
+              {"imgPath": "assets/images/ip-slider-sl-3/slide-1.png", "link": "11111", "title": "1. World cup"},
+              {"imgPath": "assets/images/ip-slider-sl-3/slide-2.png", "link": "22222", "title": "2. Argentina"},
+              {"imgPath": "assets/images/ip-slider-sl-3/slide-3.png", "link": "33333", "title": "3. Brasil"},
+              {"imgPath": "assets/images/ip-slider-sl-3/slide-4.png", "link": "44444", "title": "4. Croatie"},
+              {"imgPath": "assets/images/ip-slider-sl-3/slide-5.png", "link": "55555", "title": "5. Maroc"}
+            ]'>
+        </ip-slider-sl-3>
 
       </div>
-
-      <div class="slider-content" slot="slide-2">
-        <a href="#">
-          <img class="slider__image" src="assets/images/ip-slider-sl-2/slide-2.png" alt="" />
-          <p class='slider__desc'>2 - Pour une croissance de nos marques de Whiskey aux États-Unis</p>
-        </a>
-      </div>
-
-      <div class="slider-content" slot="slide-3">
-        <a href="#">
-          <img class="slider__image" src="assets/images/ip-slider-sl-2/slide-3.png" alt="" />
-          <p class='slider__desc'>3 - Un apéritif, mais pas que</p>
-        </a>
-      </div>
-
-      <div class="slider-content" slot="slide-4">
-        <a href="#">
-          <img class="slider__image" src="assets/images/ip-slider-sl-2/slide-4.png" alt="" />
-          <p class='slider__desc'>4 - Un amour Absolu[t]</p>
-        </a>
-      </div>
-
-      <div class="slider-content" slot="slide-5">
-        <a href="#">
-          <img class="slider__image" src="assets/images/ip-slider-sl-2/slide-5.png" alt="" />
-          <p class='slider__desc'>5 - Le digital au service de la consommation responsable</p>
-        </a>
-      </div>
-
-      <div class="slider-content" slot="slide-6">
-        <a href="#">
-          <img class="slider__image" src="assets/images/ip-slider-sl-2/slide-5.png" alt="" />
-          <p class='slider__desc'>6 - Le digital au service de la consommation responsable</p>
-        </a>
-      </div>
-
-      <div class="slider-content" slot="slide-7">
-        <a href="#">
-          <img class="slider__image" src="assets/images/ip-slider-sl-2/slide-5.png" alt="" />
-          <p class='slider__desc'>7 - Le digital au service de la consommation responsable</p>
-        </a>
-      </div>
-
-      <div class="slider-content" slot="slide-8">
-        <a href="#">
-          <img class="slider__image" src="assets/images/ip-slider-sl-2/slide-5.png" alt="" />
-          <p class='slider__desc'>7 - Le digital au service de la consommation responsable</p>
-        </a>
-      </div>
-
-      <div class="slider-content" slot="slide-9">
-        <a href="#">
-          <img class="slider__image" src="assets/images/ip-slider-sl-2/slide-5.png" alt="" />
-          <p class='slider__desc'>7 - Le digital au service de la consommation responsable</p>
-        </a>
-      </div>
-
-    </ip-slider-sl-1>
-
-  </div>
 
   </body>
 </html>
