@@ -214,7 +214,7 @@ export class IpSliderSl1 {
     const slideGap = this.convertPXToVW(this.slideGap);
 
     return [
-      <div class="slider">
+      <div class="slider" role="application">
         <div class="slider-items">
           <ul class="slider__ul" style={{ gap: `${slideGap}vw` }}>
             {this.slides?.map((_slide, index) => (
@@ -227,8 +227,8 @@ export class IpSliderSl1 {
 
         { this.isPreviousNextNavigation ? (
           <div>
-            <button part="left-btn" aria-label={this.previousBtnAria} class="btn btn-previous btn-prev-111" onClick={this.previous.bind(this)} onKeyPress={this.forceFocus.bind(this)}></button>
-            <button part="right-btn" aria-label={this.nextBtnAria} class="btn btn-next btn-prev-222" onClick={this.next.bind(this)} onKeyPress={this.forceFocus.bind(this)}></button>
+            <button onKeyPress={this.forceFocus.bind(this)} part="left-btn" aria-label={this.previousBtnAria} class="btn btn-previous" onClick={this.previous.bind(this)}></button>
+            <button onKeyPress={this.forceFocus.bind(this)} part="right-btn" aria-label={this.nextBtnAria} class="btn btn-next" onClick={this.next.bind(this)}></button>
           </div>
         ) : ''}
 
