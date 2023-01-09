@@ -206,7 +206,6 @@ export class IpSliderSl1 {
         const startingIndex = this.sliderPosition * this.itemToShow;
         this.slides[startingIndex].querySelector('a').focus();
       }, 500);
-      event.preventDefault();
     }
   }
 
